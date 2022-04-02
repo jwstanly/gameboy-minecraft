@@ -1,2 +1,2 @@
-*** Disclaimer: This is a school project ***
+***Disclaimer: This is a school project***
 
