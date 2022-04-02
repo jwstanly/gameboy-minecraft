@@ -26,47 +26,54 @@ static int qran(void) {
 int randint(int min, int max) { return (qran() * (max - min) >> 15) + min; }
 
 void setPixel(int row, int col, u16 color) {
-  // TODO: IMPLEMENT
-  UNUSED(row);
-  UNUSED(col);
-  UNUSED(color);
+  *(videoBuffer + OFFSET(row, col, WIDTH) ) = color;
 }
 
 void drawRectDMA(int row, int col, int width, int height, volatile u16 color) {
-  // TODO: IMPLEMENT
-  UNUSED(row);
-  UNUSED(col);
-  UNUSED(width);
-  UNUSED(height);
-  UNUSED(color);
+  volatile unsigned short lcolor;
+  lcolor = color;
+  for(int r=0; r<height; r++) {
+    DMA[3].src = &lcolor;
+    DMA[3].dst = &videoBuffer[OFFSET(row+r,col,WIDTH)];
+    DMA[3].cnt = width | DMA_ON | DMA_SOURCE_FIXED | DMA_DESTINATION_INCREMENT;
+  }
 }
 
 void drawFullScreenImageDMA(const u16 *image) {
-  // TODO: IMPLEMENT
-  UNUSED(image);
+  volatile unsigned short limage;
+  limage = image;
+  DMA[3].src = &limage;
+  DMA[3].dst = &videoBuffer;
+  DMA[3].cnt = (HEIGHT*WIDTH) | DMA_ON | DMA_SOURCE_INCREMENT | DMA_DESTINATION_INCREMENT;
 }
 
 void drawImageDMA(int row, int col, int width, int height, const u16 *image) {
-  // TODO: IMPLEMENT
-  UNUSED(row);
-  UNUSED(col);
-  UNUSED(width);
-  UNUSED(height);
-  UNUSED(image);
+  volatile unsigned short *limage;
+  limage = image;
+  for(int r=0; r<height; r++) {
+    DMA[3].src = &limage[OFFSET(r,0,WIDTH)];
+    DMA[3].dst = &videoBuffer[OFFSET(row+r,col,WIDTH)];
+    DMA[3].cnt = width | DMA_ON | DMA_SOURCE_INCREMENT | DMA_DESTINATION_INCREMENT;
+  }
 }
 
 void undrawImageDMA(int row, int col, int width, int height, const u16 *image) {
-  // TODO: IMPLEMENT
-  UNUSED(row);
-  UNUSED(col);
-  UNUSED(width);
-  UNUSED(height);
-  UNUSED(image);
+  volatile unsigned short *limage;
+  limage = image;
+  for(int r=0; r<height; r++) {
+    DMA[3].src = &limage[OFFSET(row+r,col,WIDTH)];
+    DMA[3].dst = &videoBuffer[OFFSET(row+r,col,WIDTH)];
+    DMA[3].cnt = width | DMA_ON | DMA_SOURCE_INCREMENT | DMA_DESTINATION_INCREMENT;
+  }
 }
 
 void fillScreenDMA(volatile u16 color) {
-  // TODO: IMPLEMENT
-  UNUSED(color);
+  volatile unsigned short lcolor;
+  lcolor = color;
+
+  DMA[3].src = &lcolor;
+  DMA[3].dst = &videoBuffer;
+  DMA[3].cnt = (HEIGHT*WIDTH) | DMA_ON | DMA_SOURCE_FIXED | DMA_DESTINATION_INCREMENT;
 }
 
 void drawChar(int row, int col, char ch, u16 color) {
