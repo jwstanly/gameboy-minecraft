@@ -32,6 +32,7 @@ typedef unsigned char u8;
 #define YELLOW COLOR(31, 31, 0)
 #define BLACK COLOR(0, 0, 0)
 #define GRAY COLOR(5, 5, 5)
+#define BROWN COLOR(28, 15, 9)
 
 // The size of the GBA Screen
 #define WIDTH 240
@@ -54,8 +55,20 @@ extern volatile unsigned short *videoBuffer;
 #define BUTTON_R        (1<<8)
 #define BUTTON_L        (1<<9)
 
+#define BUTTON_A_IND (0)
+#define BUTTON_B_IND (1)
+#define BUTTON_SELECT_IND (2)
+#define BUTTON_START_IND (3)
+#define BUTTON_RIGHT_IND (4)
+#define BUTTON_LEFT_IND (5)
+#define BUTTON_UP_IND (6)
+#define BUTTON_DOWN_IND (7)
+#define BUTTON_L_IND (8)
+#define BUTTON_R_IND (9)
+#define NBUTTONS (10)
+
 #define BUTTONS (*(volatile u32 *) 0x4000130)
-#define KEY_DOWN(key, buttons) (~(buttons) & (key))
+#define KEY_DOWN(key, buttons) (~(buttons) & (1<<key))
 
 // TODO: COMPLETE THIS MACRO.
 // Remember that a button is recently pressed if it wasn't pressed in the last

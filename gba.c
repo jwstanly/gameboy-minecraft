@@ -15,6 +15,14 @@ void waitForVBlank(void) {
 
   // (3)
   // Finally, increment the vBlank counter:
+
+
+  while (SCANLINECOUNTER> 160)
+          ;
+  while (SCANLINECOUNTER < 160)
+          ;
+  
+  vBlankCounter++;
 }
 
 static int __qran_seed = 42;
@@ -40,40 +48,29 @@ void drawRectDMA(int row, int col, int width, int height, volatile u16 color) {
 }
 
 void drawFullScreenImageDMA(const u16 *image) {
-  volatile unsigned short limage;
-  limage = image;
-  DMA[3].src = &limage;
-  DMA[3].dst = &videoBuffer;
-  DMA[3].cnt = (HEIGHT*WIDTH) | DMA_ON | DMA_SOURCE_INCREMENT | DMA_DESTINATION_INCREMENT;
+  drawImageDMA(0, 0, WIDTH, HEIGHT, image);
 }
 
 void drawImageDMA(int row, int col, int width, int height, const u16 *image) {
-  volatile unsigned short *limage;
-  limage = image;
-  for(int r=0; r<height; r++) {
-    DMA[3].src = &limage[OFFSET(r,0,WIDTH)];
-    DMA[3].dst = &videoBuffer[OFFSET(row+r,col,WIDTH)];
-    DMA[3].cnt = width | DMA_ON | DMA_SOURCE_INCREMENT | DMA_DESTINATION_INCREMENT;
-  }
+  for (int r=0; r<height; r++) {
+		DMA[3].src = &image[OFFSET(r,0,width)];
+		DMA[3].dst = &videoBuffer[OFFSET(row+r,col,WIDTH)];
+		DMA[3].cnt = (width) | DMA_ON;
+	}
 }
 
 void undrawImageDMA(int row, int col, int width, int height, const u16 *image) {
-  volatile unsigned short *limage;
-  limage = image;
-  for(int r=0; r<height; r++) {
-    DMA[3].src = &limage[OFFSET(row+r,col,WIDTH)];
-    DMA[3].dst = &videoBuffer[OFFSET(row+r,col,WIDTH)];
-    DMA[3].cnt = width | DMA_ON | DMA_SOURCE_INCREMENT | DMA_DESTINATION_INCREMENT;
-  }
+  for (int r=0; r<height; r++) {
+		DMA[3].src = &image[OFFSET(row+r,col,WIDTH)];
+		DMA[3].dst = &videoBuffer[OFFSET(row+r,col,WIDTH)];
+		DMA[3].cnt = (width) | DMA_ON;
+	}
 }
 
 void fillScreenDMA(volatile u16 color) {
-  volatile unsigned short lcolor;
-  lcolor = color;
-
-  DMA[3].src = &lcolor;
-  DMA[3].dst = &videoBuffer;
-  DMA[3].cnt = (HEIGHT*WIDTH) | DMA_ON | DMA_SOURCE_FIXED | DMA_DESTINATION_INCREMENT;
+  DMA[3].src = &color;
+  DMA[3].dst = &videoBuffer[0];
+  DMA[3].cnt = (WIDTH*HEIGHT) | DMA_ON | DMA_SOURCE_FIXED | DMA_DESTINATION_INCREMENT;
 }
 
 void drawChar(int row, int col, char ch, u16 color) {

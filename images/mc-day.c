@@ -1,18 +1,18 @@
 /*
  * Exported with nin10kit v1.8
- * Invocation command was nin10kit mc-sky --mode 3 --resize 240x160 mc-sky.jpeg 
+ * Invocation command was nin10kit mc-day --mode 3 --resize 240x160 mc-day.jpeg 
  * Time-stamp: Saturday 04/02/2022, 20:40:15
  * 
  * Image Information
  * -----------------
- * mc-sky.jpeg 240@160
+ * mc-day.jpeg 240@160
  * 
  * All bug reports / feature requests are to be filed here https://github.com/TricksterGuy/nin10kit/issues
  */
 
-#include "mc-sky.h"
+#include "mc-day.h"
 
-const unsigned short mcsky[38400] =
+const unsigned short mcday[38400] =
 {
 	0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,
 	0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,0x7eb0,

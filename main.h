@@ -24,4 +24,35 @@
 *
 */
 
+enum gba_state {
+  START,
+  BUILD,
+  PLAY,
+  WIN,
+};
+
+struct player {
+  int row;
+  int col;
+  int rd;
+  int cd;
+  int jump;
+};
+
+struct diamond {
+  int row;
+  int col;
+  int rd;
+  int cd;
+};
+
+struct game_state {
+  enum gba_state gba_state;
+  int succeed;
+  struct player player;
+  struct diamond diamond;
+  int ticks;
+  int winTick;
+};
+
 #endif
