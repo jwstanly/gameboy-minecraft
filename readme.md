@@ -2,7 +2,7 @@
 
 # Gameboy Minecraft
 
-![image](https://jwstanly.com/files/gameboy-minecraft.gif)
+![image](https://jwstanly.com/files/gameboy-minecraft.png)
 
 A CS 2110 project for exploring C and emulating Gameboy Advanced hardware. The objective of the game is to move Steve over the terrain to collect the diamond.
 
